@@ -2,10 +2,7 @@ package com.hospital.Ultracare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hospital.Ultracare.enums.Gender;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -15,6 +12,8 @@ public class PatientModel extends BaseModel{
 
     private String patientName;
     private Integer age;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(unique = true)
@@ -24,11 +23,11 @@ public class PatientModel extends BaseModel{
     private String email;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     List<AppointmentModel> appointments;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     List<MedicalReportModel> reports;
 
     public String getPatientName() {

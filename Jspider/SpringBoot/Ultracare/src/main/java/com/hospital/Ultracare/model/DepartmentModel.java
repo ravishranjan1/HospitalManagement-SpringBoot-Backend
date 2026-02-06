@@ -1,10 +1,7 @@
 package com.hospital.Ultracare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class DepartmentModel extends BaseModel{
     private String departmentName;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<DoctorModel> doctors;
 
     public String getDepartmentName() {

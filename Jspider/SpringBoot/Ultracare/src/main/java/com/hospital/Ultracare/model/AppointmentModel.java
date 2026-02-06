@@ -1,9 +1,7 @@
 package com.hospital.Ultracare.model;
 
 import com.hospital.Ultracare.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,12 +10,16 @@ import java.time.LocalDateTime;
 public class AppointmentModel extends BaseModel{
 
     private LocalDateTime appointmentDateTime;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private DoctorModel doctor;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
     private PatientModel patient;
 
     public LocalDateTime getAppointmentDateTime() {

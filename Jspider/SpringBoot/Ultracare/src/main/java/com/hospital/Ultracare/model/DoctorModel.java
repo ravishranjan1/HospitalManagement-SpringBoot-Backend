@@ -1,10 +1,7 @@
 package com.hospital.Ultracare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -14,17 +11,22 @@ public class DoctorModel extends BaseModel{
 
     private String doctorName;
     private String specialization;
+
+    @ElementCollection
+    @CollectionTable(name = "doctor_available_days", joinColumns = @JoinColumn(name = "doctor_id"))
+    @Column(name = "day")
     private List<String> availableDays;
 
     @ManyToOne
+    @JoinColumn(name = "department_id")
     private DepartmentModel department;
 
     @JsonIgnore
-    @OneToMany
-    private List<AppointmentModel> appointment;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<AppointmentModel> appointments;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<MedicalReportModel> reports;
 
     public String getDoctorName() {
@@ -59,12 +61,12 @@ public class DoctorModel extends BaseModel{
         this.department = department;
     }
 
-    public List<AppointmentModel> getAppointment() {
-        return appointment;
+    public List<AppointmentModel> getAppointments() {
+        return appointments;
     }
 
-    public void setAppointment(List<AppointmentModel> appointment) {
-        this.appointment = appointment;
+    public void setAppointments(List<AppointmentModel> appointments) {
+        this.appointments = appointments;
     }
 
     public List<MedicalReportModel> getReports() {

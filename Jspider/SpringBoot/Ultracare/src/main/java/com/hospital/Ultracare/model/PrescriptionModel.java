@@ -1,6 +1,7 @@
 package com.hospital.Ultracare.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -13,6 +14,7 @@ public class PrescriptionModel extends BaseModel{
     private String instruction;
 
     @OneToOne
+    @JoinColumn(name = "report_id", unique = true)
     private MedicalReportModel report;
 
     public String getMedicine() {
