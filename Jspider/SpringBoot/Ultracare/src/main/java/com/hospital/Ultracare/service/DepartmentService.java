@@ -51,7 +51,7 @@ public class DepartmentService {
     public ResponseEntity<ResponseStructure<String>> deleteDepartment(Long id){
         ResponseStructure<String> response = new ResponseStructure<>();
         response.setStatusCode(HttpStatus.OK.value());
-        response.setMessage("Department is updated");
+        response.setMessage("Department is deleted");
         response.setData(departmentDao.deleteDepartment(id));
         return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.OK);
     }
