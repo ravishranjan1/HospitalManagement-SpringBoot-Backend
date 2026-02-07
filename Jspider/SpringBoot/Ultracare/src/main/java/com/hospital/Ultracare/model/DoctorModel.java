@@ -12,9 +12,6 @@ public class DoctorModel extends BaseModel{
     private String doctorName;
     private String specialization;
 
-    @ElementCollection
-    @CollectionTable(name = "doctor_available_days", joinColumns = @JoinColumn(name = "doctor_id"))
-    @Column(name = "day")
     private List<String> availableDays;
 
     @ManyToOne
