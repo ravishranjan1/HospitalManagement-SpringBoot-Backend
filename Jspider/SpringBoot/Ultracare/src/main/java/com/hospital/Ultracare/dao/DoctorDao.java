@@ -2,8 +2,10 @@ package com.hospital.Ultracare.dao;
 
 import com.hospital.Ultracare.exception.IdNotFoundException;
 import com.hospital.Ultracare.exception.NoDataFoundException;
+import com.hospital.Ultracare.model.AppointmentModel;
 import com.hospital.Ultracare.model.DepartmentModel;
 import com.hospital.Ultracare.model.DoctorModel;
+import com.hospital.Ultracare.model.PatientModel;
 import com.hospital.Ultracare.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,7 +22,25 @@ public class DoctorDao {
     @Autowired
     private DepartmentDao departmentDao;
 
+    @Autowired
+    private PatientDao patientDao;
+
+    @Autowired
+    private AppointmentDao appointmentDao;
+
     public DoctorModel addDoctor(DoctorModel doctor){
+        if (doctor == null)
+            throw new RuntimeException("Doctor body cannot be null");
+        if (doctor.getDoctorName() == null || doctor.getDoctorName().trim().isEmpty())
+            throw new RuntimeException("Doctor name cannot be null or empty");
+        if (doctor.getSpecialization() == null || doctor.getSpecialization().trim().isEmpty())
+            throw new RuntimeException("Specialization cannot be null or empty");
+        if (doctor.getDepartment() == null)
+            throw new RuntimeException("Department is required");
+        if (doctor.getDepartment().getDepartmentName() == null)
+            throw new RuntimeException("Department name is required");
+        if (doctor.getAvailableDays() == null || doctor.getAvailableDays().isEmpty())
+            throw new RuntimeException("Available days are required");
         DepartmentModel department = departmentDao.fetchDepartmentByDepartmentName(doctor.getDepartment().getDepartmentName());
         doctor.setDepartment(department);
         return doctorRepository.save(doctor);
@@ -60,8 +80,20 @@ public class DoctorDao {
     }
 
     public DoctorModel updateDoctor(DoctorModel doctor){
+        if (doctor == null)
+            throw new RuntimeException("Doctor body cannot be null");
         if(doctor.getId() == null)
             throw new IdNotFoundException("Id cannot be null");
+        if (doctor.getDoctorName() == null || doctor.getDoctorName().trim().isEmpty())
+            throw new RuntimeException("Doctor name cannot be null or empty");
+        if (doctor.getSpecialization() == null || doctor.getSpecialization().trim().isEmpty())
+            throw new RuntimeException("Specialization cannot be null or empty");
+        if (doctor.getDepartment() == null)
+            throw new RuntimeException("Department is required");
+        if (doctor.getDepartment().getDepartmentName() == null)
+            throw new RuntimeException("Department name is required");
+        if (doctor.getAvailableDays() == null || doctor.getAvailableDays().isEmpty())
+            throw new RuntimeException("Available days are required");
         DoctorModel oldDoctor = fetchDoctorById(doctor.getId());
         DepartmentModel department = departmentDao.fetchDepartmentByDepartmentName(doctor.getDepartment().getDepartmentName());
         doctor.setDepartment(department);
@@ -72,5 +104,19 @@ public class DoctorDao {
         DoctorModel doctor = fetchDoctorById(id);
         doctorRepository.delete(doctor);
         return "success";
+    }
+
+    public List<DoctorModel> fetchDoctorByPatient(Long id){
+        PatientModel patient = patientDao.fetchPatientById(id);
+        List<DoctorModel> doctors = appointmentDao.fetchDoctorByPatient(patient);
+        if(doctors.isEmpty())
+            return doctors;
+        else
+            throw new NoDataFoundException("No doctor is found for this patient");
+    }
+
+    public DoctorModel fetchDoctorByAppointment(Long id){
+        AppointmentModel appointment = appointmentDao.fetchAppointmentById(id);
+        return appointment.getDoctor();
     }
 }

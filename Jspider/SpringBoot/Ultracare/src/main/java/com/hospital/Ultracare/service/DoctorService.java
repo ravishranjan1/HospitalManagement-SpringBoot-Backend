@@ -72,4 +72,20 @@ public class DoctorService {
         response.setData(doctorDao.deleteDoctor(id));
         return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.OK);
     }
+
+    public ResponseEntity<ResponseStructure<List<DoctorModel>>> fetchDoctorByPatient(Long  id){
+        ResponseStructure<List<DoctorModel>> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("Doctor is found for this patient ");
+        response.setData(doctorDao.fetchDoctorByPatient(id));
+        return new ResponseEntity<ResponseStructure<List<DoctorModel>>>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ResponseStructure<DoctorModel>> fetchDoctorByAppointment(Long id){
+        ResponseStructure<DoctorModel> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("Doctor is found.");
+        response.setData(doctorDao.fetchDoctorByAppointment(id));
+        return new ResponseEntity<ResponseStructure<DoctorModel>>(response, HttpStatus.OK);
+    }
 }

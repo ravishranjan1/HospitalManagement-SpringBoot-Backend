@@ -52,4 +52,14 @@ public class DoctorController {
     public ResponseEntity<ResponseStructure<String>> deleteDoctor(@PathVariable Long id){
         return doctorService.deleteDoctor(id);
     }
+
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<ResponseStructure<List<DoctorModel>>> fetchByDoctorByPatient(@PathVariable Long id){
+        return doctorService.fetchDoctorByPatient(id);
+    }
+
+    @GetMapping("/appointment/{id}")
+    public ResponseEntity<ResponseStructure<DoctorModel>> fetchDoctorByAppointment(@PathVariable Long id){
+        return doctorService.fetchDoctorByAppointment(id);
+    }
 }

@@ -17,6 +17,13 @@ public class DepartmentDao {
     private DepartmentRepository departmentRepository;
 
     public DepartmentModel createDepartment(DepartmentModel department){
+        if (department == null)
+            throw new RuntimeException("Department body cannot be null");
+        if (department.getDepartmentName() == null)
+            throw new RuntimeException("Department name cannot be null");
+        String name = department.getDepartmentName().trim();
+        if (name.isEmpty())
+            throw new RuntimeException("Department name cannot be empty");
         return departmentRepository.save(department);
     }
 
@@ -37,8 +44,15 @@ public class DepartmentDao {
     }
 
     public DepartmentModel updateDepartment(DepartmentModel department){
+        if (department == null)
+            throw new RuntimeException("Department body cannot be null");
         if(department.getId() == null)
             throw new IdNotFoundException("Id cannot be null");
+        if (department.getDepartmentName() == null)
+            throw new RuntimeException("Department name cannot be null");
+        String name = department.getDepartmentName().trim();
+        if (name.isEmpty())
+            throw new RuntimeException("Department name cannot be empty");
         DepartmentModel OldDepartment = fetchDepartmentById(department.getId());
         return departmentRepository.save(department);
     }

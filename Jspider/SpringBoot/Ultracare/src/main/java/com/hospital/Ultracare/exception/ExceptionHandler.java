@@ -27,4 +27,40 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.NOT_FOUND);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(DoctorNotAvailableException.class)
+    public ResponseEntity<ResponseStructure<String>> handleDoctorNotAvailableException(DoctorNotAvailableException exception){
+        ResponseStructure<String> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(exception.getMessage());
+        response.setData("Failure");
+        return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(PatientAlreadyHasAppointmentException.class)
+    public ResponseEntity<ResponseStructure<String>> handlePatientAlreadyHasAppointmentException(PatientAlreadyHasAppointmentException exception){
+        ResponseStructure<String> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(exception.getMessage());
+        response.setData("Failure");
+        return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AppointmentNotCompletedException.class)
+    public ResponseEntity<ResponseStructure<String>> handleAppointmentNotCompletedException(AppointmentNotCompletedException exception){
+        ResponseStructure<String> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(exception.getMessage());
+        response.setData("Failure");
+        return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseStructure<String>> handleRuntimeException(RuntimeException exception){
+        ResponseStructure<String> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.NOT_FOUND.value());
+        response.setMessage(exception.getMessage());
+        response.setData("Failure");
+        return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.NOT_FOUND);
+    }
+
 }
