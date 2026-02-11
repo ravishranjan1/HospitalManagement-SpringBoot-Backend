@@ -6,6 +6,7 @@ import com.hospital.Ultracare.model.AppointmentModel;
 import com.hospital.Ultracare.model.DepartmentModel;
 import com.hospital.Ultracare.model.DoctorModel;
 import com.hospital.Ultracare.model.PatientModel;
+import com.hospital.Ultracare.repository.AppointmentRepository;
 import com.hospital.Ultracare.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,7 +27,7 @@ public class DoctorDao {
     private PatientDao patientDao;
 
     @Autowired
-    private AppointmentDao appointmentDao;
+    private AppointmentRepository appointmentRepository;
 
     public DoctorModel addDoctor(DoctorModel doctor){
         if (doctor == null)
@@ -108,15 +109,20 @@ public class DoctorDao {
 
     public List<DoctorModel> fetchDoctorByPatient(Long id){
         PatientModel patient = patientDao.fetchPatientById(id);
-        List<DoctorModel> doctors = appointmentDao.fetchDoctorByPatient(patient);
-        if(doctors.isEmpty())
+        List<DoctorModel> doctors = appointmentRepository.findDoctorByPatient(patient);
+        if(!doctors.isEmpty())
             return doctors;
         else
             throw new NoDataFoundException("No doctor is found for this patient");
     }
 
     public DoctorModel fetchDoctorByAppointment(Long id){
-        AppointmentModel appointment = appointmentDao.fetchAppointmentById(id);
-        return appointment.getDoctor();
+        Optional<AppointmentModel> opt = appointmentRepository.findById(id);
+        if(opt.isPresent()) {
+            AppointmentModel appointment = opt.get();
+            return appointment.getDoctor();
+        }
+        else
+            throw new NoDataFoundException("No Doctor is found for this Appointment");
     }
 }

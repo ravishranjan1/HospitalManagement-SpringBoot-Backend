@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,14 +42,13 @@ public class ReportService {
         return new ResponseEntity<ResponseStructure<MedicalReportModel>>(response, HttpStatus.OK);
     }
 
-
-        public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByPatient(Long id){
+    public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByPatient(Long id){
         ResponseStructure<List<MedicalReportModel>> response = new ResponseStructure<>();
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage("Record is found");
         response.setData(reportDao.fetchReportByPatient(id));
         return new ResponseEntity<ResponseStructure<List<MedicalReportModel>>>(response, HttpStatus.OK);
-      }
+    }
 
 
     public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByDoctor(Long id){
@@ -56,6 +56,22 @@ public class ReportService {
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage("Record is found");
         response.setData(reportDao.fetchReportByDoctor(id));
+        return new ResponseEntity<ResponseStructure<List<MedicalReportModel>>>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ResponseStructure<MedicalReportModel>> fetchReportByAppointment(Long id){
+        ResponseStructure<MedicalReportModel> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("Record is found");
+        response.setData(reportDao.fetchReportByAppointment(id));
+        return new ResponseEntity<ResponseStructure<MedicalReportModel>>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByVisitDate(LocalDate visitDate){
+        ResponseStructure<List<MedicalReportModel>> response = new ResponseStructure<>();
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("Record is found");
+        response.setData(reportDao.fetchReportByVisitDate(visitDate));
         return new ResponseEntity<ResponseStructure<List<MedicalReportModel>>>(response, HttpStatus.OK);
     }
 }

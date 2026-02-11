@@ -51,4 +51,14 @@ public class PatientController {
     public ResponseEntity<ResponseStructure<String>> deletePatient(@PathVariable Long id){
         return patientService.deletePatient(id);
     }
+
+    @GetMapping("/appointment/{id}")
+    public ResponseEntity<ResponseStructure<PatientModel>> fetchPatientByAppointment(@PathVariable Long id){
+        return patientService.fetchPatientByAppointment(id);
+    }
+
+    @GetMapping("/report/{id}")
+    public ResponseEntity<ResponseStructure<PatientModel>> fetchPatientByReport(@PathVariable Long id){
+        return patientService.fetchPatientByReport(id);
+    }
 }

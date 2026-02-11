@@ -30,6 +30,14 @@ public class AppointmentDao {
     private PatientDao patientDao;
 
     public AppointmentModel bookAppointment(AppointmentModel appointment){
+        if (appointment == null)
+            throw new RuntimeException("Appointment body cannot be null");
+        if (appointment.getAppointmentDateTime() == null)
+            throw new RuntimeException("Appointment date & time is required");
+        if (appointment.getDoctor() == null || appointment.getDoctor().getId() == null)
+            throw new RuntimeException("Doctor or doctorId is required");
+        if (appointment.getPatient() == null || appointment.getPatient().getId() == null)
+            throw new RuntimeException("Patient or patientId is required");
         DoctorModel doctor = doctorDao.fetchDoctorById(appointment.getDoctor().getId());
         PatientModel patient = patientDao.fetchPatientById(appointment.getPatient().getId());
 
@@ -124,15 +132,5 @@ public class AppointmentDao {
         else
             throw new NoDataFoundException("No Appointment is found with this doctor and patient on this day ");
     }
-
-    public List<DoctorModel> fetchDoctorByPatient (PatientModel patient){
-        List<DoctorModel> doctors = appointmentRepository.findDoctorByPatient(patient);
-        if(!doctors.isEmpty())
-            return doctors;
-        else
-            throw new NoDataFoundException("No Doctor is found for this doctor");
-    }
-
-
 
 }

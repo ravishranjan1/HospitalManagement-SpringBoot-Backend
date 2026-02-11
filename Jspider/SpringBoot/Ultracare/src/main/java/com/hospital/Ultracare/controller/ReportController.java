@@ -4,10 +4,12 @@ import com.hospital.Ultracare.dto.ResponseStructure;
 import com.hospital.Ultracare.model.MedicalReportModel;
 import com.hospital.Ultracare.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -43,5 +45,15 @@ public class ReportController {
     @GetMapping("/doctor/{id}")
     public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByDoctor(@PathVariable Long id){
         return reportService.fetchReportByDoctor(id);
+    }
+
+    @GetMapping("/appointment/{id}")
+    public ResponseEntity<ResponseStructure<MedicalReportModel>> fetchReportByAppointment(@PathVariable Long id){
+        return reportService.fetchReportByAppointment(id);
+    }
+
+    @GetMapping("/visitDate/{date}")
+    public ResponseEntity<ResponseStructure<List<MedicalReportModel>>> fetchReportByVisitDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        return reportService.fetchReportByVisitDate(date);
     }
 }
